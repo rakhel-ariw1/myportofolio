@@ -138,8 +138,14 @@
         <section class="awards" id="awards">
             <div class="container">
                 <h2>Awards</h2>
+                <div class="category-filter" id="categoryFilter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="Business Case">Business Case</button>
+                    <button class="filter-btn" data-filter="Business Plan">Business Plan</button>
+                    <button class="filter-btn" data-filter="Mini Case">Mini Case</button>
+                </div>
                 <div class="awards-list">
-                    <div class="card-item">
+                    <div class="card-item" data-category="Business Case">
                         <div class="card-header">
                             <h3>Finalist of BIZIONARY Business Case Competition 2026</h3>
                             <span class="card-year">August 2026</span>
@@ -153,7 +159,7 @@
                         </div>
                     </div>
 
-                    <div class="card-item">
+                    <div class="card-item" data-category="Business Plan">
                         <div class="card-header">
                             <h3>Finalist of Veternity Business Plan Competition 2026</h3>
                             <span class="card-year">August 2026</span>
@@ -167,7 +173,7 @@
                         </div>
                     </div>
 
-                    <div class="card-item">
+                    <div class="card-item" data-category="Mini Case">
                         <div class="card-header">
                             <h3>1st Place of Pekan Ristek Mini Case Competition Collaborated With tiket.com 2025</h3>
                             <span class="card-year">November 2025</span>
@@ -181,7 +187,7 @@
                         </div>
                     </div>
 
-                    <div class="card-item">
+                    <div class="card-item" data-category="Business Case">
                         <div class="card-header">
                             <h3>Top 25 of National Business Case Competition by DreamCareer 2026</h3>
                             <span class="card-year">July 2026</span>
@@ -195,7 +201,7 @@
                         </div>
                     </div>
 
-                    <div class="card-item">
+                    <div class="card-item" data-category="Business Plan">
                         <div class="card-header">
                             <h3>Semi Finalist of IDEAS Batch 12</h3>
                             <span class="card-year">June 2026</span>
@@ -209,7 +215,7 @@
                         </div>
                     </div>
 
-                    <div class="card-item">
+                    <div class="card-item" data-category="Business Plan">
                         <div class="card-header">
                             <h3>Semi Finalist of The 115th UI Studentpreneurs 2025</h3>
                             <span class="card-year">November 2025</span>
@@ -223,7 +229,7 @@
                         </div>
                     </div>
 
-                    <div class="card-item">
+                    <div class="card-item" data-category="Business Plan">
                         <div class="card-header">
                             <h3>Semi Finalist of Isola Business Competition</h3>
                             <span class="card-year">October 2025</span>
@@ -237,7 +243,7 @@
                         </div>
                     </div>
 
-                    <div class="card-item">
+                    <div class="card-item" data-category="Business Plan">
                         <div class="card-header">
                             <h3>Semi Finalist of Garuda Business Plan Competition</h3>
                             <span class="card-year">July 2026</span>
@@ -251,7 +257,7 @@
                         </div>
                     </div>
 
-                    <div class="card-item">
+                    <div class="card-item" data-category="Business Plan">
                         <div class="card-header">
                             <h3>Semi Finalist of Business Plan Competition Innovators Clash Vol.2</h3>
                             <span class="card-year">July 2026</span>
@@ -295,6 +301,22 @@
 
         window.addEventListener('scroll', setActiveLink);
         window.addEventListener('load', setActiveLink);
+
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const awardCards = document.querySelectorAll('.awards-list .card-item');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+
+                awardCards.forEach(card => {
+                    const match = filter === 'all' || card.getAttribute('data-category') === filter;
+                    card.style.display = match ? '' : 'none';
+                });
+            });
+        });
     </script>
 </body>
 </html>
