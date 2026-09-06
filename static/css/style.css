@@ -85,8 +85,8 @@ h1, .brand {
 }
 
 .site-header nav a.active {
-    color: var(--accent-pink);
-    border-bottom: 2px solid var(--accent-pink);
+    color: var(--brown-dark);
+    border-bottom: 2px solid var(--brown-dark);
 }
 
 .hero {
@@ -415,9 +415,36 @@ h1, .brand {
 }
 
 @media (max-width: 600px) {
-    .site-header nav {
-        gap: 1rem;
+    .container {
+        padding: 0 1rem;
+    }
+
+    .site-header .container {
         flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 1rem 1.25rem;
+    }
+
+    .brand {
+        font-size: 1.15rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .site-header nav {
+        gap: 1.1rem;
+        justify-content: center;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .site-header nav a {
+        font-size: 0.85rem;
+    }
+
+    .hero {
+        padding: 2.5rem 0 3rem;
     }
 
     .hero-grid {
@@ -426,10 +453,54 @@ h1, .brand {
             "identity"
             "photo"
             "details";
+        gap: 1.5rem;
+    }
+
+    .hero-identity h1 {
+        text-align: center;
+    }
+
+    .hero-identity h1::before {
+        text-align: center;
+    }
+
+    .hero-kicker,
+    .bio {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .hero-photo {
         max-width: 220px;
         margin: 0 auto;
+    }
+
+    .meta-list {
+        justify-content: center;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+    }
+
+    .card-header h3 {
+        font-size: 1rem;
+    }
+
+    .card-body {
+        padding: 1.1rem 1.25rem 1.35rem;
+    }
+
+    .category-filter {
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        flex: 1 1 40%;
+        font-size: 0.8rem;
+        padding: 0.6rem 0.75rem;
     }
 }
