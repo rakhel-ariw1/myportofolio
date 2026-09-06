@@ -1,0 +1,245 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --ink: #1c1917;
+    --cream: #faf6ee;
+    --accent-green: #b7d47a;
+    --accent-green-dark: #8fae4f;
+    --accent-pink: #d98bb0;
+    --text-muted: rgba(250, 246, 238, 0.85);
+    --pill-bg: rgba(255, 255, 255, 0.92);
+    --radius: 999px;
+    --radius-card: 24px;
+}
+
+body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--cream);
+    line-height: 1.6;
+    background: linear-gradient(135deg, #c9e28f 0%, #dba7c4 50%, #d67fb0 100%);
+    min-height: 100vh;
+}
+
+h1, .brand {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Header / nav pill bar */
+.site-header {
+    padding-top: 1.5rem;
+}
+
+.site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--pill-bg);
+    border-radius: var(--radius);
+    padding: 0.85rem 1.75rem;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.brand {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.site-header nav {
+    display: flex;
+    gap: 1.75rem;
+}
+
+.site-header nav a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding-bottom: 0.2rem;
+}
+
+.site-header nav a:first-child {
+    color: var(--accent-pink);
+    border-bottom: 2px solid var(--accent-pink);
+}
+
+.hero {
+    padding: 4rem 0 5rem;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    grid-template-areas:
+        "identity photo"
+        "details  photo";
+    gap: 1.5rem 3rem;
+}
+
+.hero-identity {
+    grid-area: identity;
+}
+
+.hero-details {
+    grid-area: details;
+}
+
+.hero-kicker {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    opacity: 0.75;
+}
+
+.hero-identity h1 {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    line-height: 1.05;
+    color: var(--cream);
+    font-weight: 700;
+}
+
+.hero-identity h1::before {
+    content: "Hello, I'm ";
+    font-style: italic;
+    color: var(--accent-green);
+}
+
+.bio {
+    color: var(--text-muted);
+    max-width: 480px;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.meta-list {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.meta-row dt {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-style: italic;
+    color: var(--accent-green);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+
+.meta-row dd {
+    font-weight: 600;
+    background-color: var(--pill-bg);
+    color: var(--accent-pink);
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius);
+}
+
+.social-links {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    background-color: var(--pill-bg);
+    border: 2px solid var(--accent-green);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.75rem;
+    position: relative;
+}
+
+.social-links::before {
+    content: "Connect with Me!";
+    position: absolute;
+    top: -0.65rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--pill-bg);
+    color: var(--accent-pink);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 0 0.75rem;
+}
+
+.social-link {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: underline;
+    color: var(--accent-green-dark);
+    transition: color 0.2s ease;
+}
+
+.social-link:hover {
+    color: var(--accent-pink);
+}
+
+.hero-photo {
+    grid-area: photo;
+    align-self: center;
+    position: relative;
+}
+
+.photo-block {
+    display: none;
+}
+
+.avatar {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    max-width: 260px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-card);
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.site-footer {
+    padding: 1.5rem;
+    color: var(--ink);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .site-header nav {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "identity"
+            "photo"
+            "details";
+    }
+
+    .hero-photo {
+        max-width: 220px;
+        margin: 0 auto;
+    }
+
+    .social-links {
+        justify-content: flex-start;
+    }
+}
