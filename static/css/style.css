@@ -53,15 +53,20 @@ h1, .brand {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--pill-bg);
+    background-color: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: var(--radius);
     padding: 0.85rem 1.75rem;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .brand {
-    font-size: 1.05rem;
-    font-weight: 700;
+    font-family: "Instrument Serif", serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    font-weight: 400;
     color: var(--ink);
     text-decoration: none;
 }
@@ -246,81 +251,12 @@ h1, .brand {
 
 .experience h2,
 .awards h2 {
-    font-family: "Space Grotesk", -apple-system, sans-serif;
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-family: "Instrument Serif", serif;
+    font-style: italic;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 400;
     color: var(--brown-dark);
     margin-bottom: 1.5rem;
-}
-
-/* Stats bar */
-.stats-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.75rem;
-}
-
-.stat-item {
-    background-color: var(--pill-bg);
-    border-radius: var(--radius-card);
-    padding: 1rem 1.5rem;
-    min-width: 140px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-}
-
-.stat-number {
-    display: block;
-    font-family: "Space Grotesk", -apple-system, sans-serif;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--dark-green);
-    line-height: 1.1;
-}
-
-.stat-label {
-    display: block;
-    font-size: 0.78rem;
-    color: var(--ink);
-    font-weight: 600;
-    margin-top: 0.2rem;
-}
-
-/* Timeline connector for experience */
-.timeline {
-    position: relative;
-    padding-left: 2rem;
-}
-
-.timeline::before {
-    content: "";
-    position: absolute;
-    top: 0.6rem;
-    bottom: 0.6rem;
-    left: 0.35rem;
-    width: 2px;
-    background-color: rgba(250, 246, 238, 0.55);
-}
-
-.timeline .card-item {
-    position: relative;
-}
-
-.timeline .card-item::before {
-    content: "";
-    position: absolute;
-    left: -1.72rem;
-    top: 1.35rem;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: var(--dark-green);
-    border: 2px solid var(--cream);
-    z-index: 1;
-}
-
-/* Header icon */
-.card-icon {
-    margin-right: 0.5rem;
 }
 
 /* Skill tags */
@@ -418,7 +354,8 @@ h1, .brand {
 }
 
 .category-filter {
-    display: inline-flex;
+    display: flex;
+    width: 100%;
     background-color: var(--pill-bg);
     border-radius: var(--radius);
     padding: 0.35rem;
@@ -428,12 +365,13 @@ h1, .brand {
 }
 
 .filter-btn {
+    flex: 1;
     border: none;
     background: transparent;
     color: var(--ink);
     font-weight: 600;
     font-size: 0.88rem;
-    padding: 0.55rem 1.25rem;
+    padding: 0.7rem 1.25rem;
     border-radius: var(--radius);
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
@@ -493,18 +431,5 @@ h1, .brand {
     .hero-photo {
         max-width: 220px;
         margin: 0 auto;
-    }
-
-    .timeline {
-        padding-left: 1.5rem;
-    }
-
-    .timeline .card-item::before {
-        left: -1.3rem;
-    }
-
-    .stat-item {
-        min-width: 120px;
-        padding: 0.85rem 1.1rem;
     }
 }

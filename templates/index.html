@@ -1,435 +1,349 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rakhel Aqeela Hapsari Ariwibowo - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="#profile" class="brand">Rakhel Aqeela Hapsari Ariwibowo</a>
+            <nav>
+                <a href="#profile" class="active">Profile</a>
+                <a href="#experience">Experience</a>
+                <a href="#awards">Awards</a>
+            </nav>
+        </div>
+    </header>
 
-:root {
-    --ink: #1c1917;
-    --cream: #faf6ee;
-    --accent-green: #b7d47a;
-    --accent-green-dark: #8fae4f;
-    --accent-pink: #d98bb0;
-    --text-muted: rgba(250, 246, 238, 0.85);
-    --pill-bg: rgba(255, 255, 255, 0.92);
-    --brown-dark: #5c3a21;
-    --dark-green: #3f5c2e;
-    --radius: 999px;
-    --radius-card: 24px;
-}
+    <main>
+        <section class="hero" id="profile">
+            <div class="container hero-grid">
+                <div class="hero-identity">
+                    <p class="hero-kicker">Information Systems &middot; Universitas Indonesia</p>
+                    <h1><span class="name-highlight">Rakhel</span><br>Aqeela Hapsari Ariwibowo</h1>
+                </div>
+                <div class="hero-photo">
+                    <img class="avatar" src="/static/img/mortimut.jpg" alt="Photo of Rakhel">
+                    <div class="social-links">
+                        <a href="https://github.com/rakhel-ariw1" class="social-link">GitHub</a>
+                        <a href="https://www.linkedin.com/in/rakhel-aqeela-hapsari-ariwibowo-5611a136b/" class="social-link">LinkedIn</a>
+                        <a href="mailto:ariwiboworakhel@example.com" class="social-link">Email</a>
+                    </div>
+                </div>
+                <div class="hero-details">
+                    <p class="bio">Teaching assistant for Calculus 1 and undergraduate information systems student at Universitas Indonesia.</p>
+                    <dl class="meta-list">
+                        <div class="meta-row">
+                            <dt>NPM</dt>
+                            <dd>2506605462</dd>
+                        </div>
+                        <div class="meta-row">
+                            <dt>Program</dt>
+                            <dd>S1 Sistem Informasi</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </section>
 
-body {
-    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: var(--cream);
-    line-height: 1.6;
-    background-image: url("/static/img/BackgroundProfile.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    min-height: 100vh;
-}
+        <section class="experience" id="experience">
+            <div class="container">
+                <h2>Experience</h2>
+                <div class="experience-list">
+                    <div class="card-item">
+                        <div class="card-header">
+                            <h3>RISTEK Fasilkom UI 2026</h3>
+                            <span class="card-year">March 2026 &ndash; Present</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Member of Business Growth and Partnership</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">Operations Manager at RISTEK Hackathon 2026</li>
+                                <li class="pill-bar">Teaching Assistant of Business Analyst and Strategies at SISTECH 2026</li>
+                            </ul>
+                            <ul class="skill-tags">
+                                <li class="skill-tag">Business Partnership</li>
+                                <li class="skill-tag">Event Operations</li>
+                                <li class="skill-tag">Teaching</li>
+                            </ul>
+                        </div>
+                    </div>
 
-h1, .brand {
-    font-family: "Space Grotesk", -apple-system, sans-serif;
-}
+                    <div class="card-item">
+                        <div class="card-header">
+                            <h3>Open House Fasilkom UI 2026</h3>
+                            <span class="card-year">May 2026 &ndash; Present</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Secretary 1</p>
+                            <ul class="skill-tags">
+                                <li class="skill-tag">Administration</li>
+                                <li class="skill-tag">Coordination</li>
+                            </ul>
+                        </div>
+                    </div>
 
-.container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-}
+                    <div class="card-item">
+                        <div class="card-header">
+                            <h3>DDP 0 Fasilkom UI 2025</h3>
+                            <span class="card-year">May 2026 &ndash; August 2026</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-position">
+                                <p class="card-position-title">Vice Person in Charge of Event</p>
+                                <ul class="pill-bar-list">
+                                    <li class="pill-bar">Co-leader of Grand Opening DDP 0 Fasilkom UI 2026</li>
+                                    <li class="pill-bar">Co-leader of Grand Closing DDP 0 Fasilkom UI 2026</li>
+                                </ul>
+                            </div>
+                            <div class="card-position">
+                                <p class="card-position-title">Programming Mentor (Python)</p>
+                            </div>
+                            <ul class="skill-tags">
+                                <li class="skill-tag">Event Leadership</li>
+                                <li class="skill-tag">Python</li>
+                                <li class="skill-tag">Mentoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-item">
+                        <div class="card-header">
+                            <h3>Student Cohort of Faculty of Computer Science 2025</h3>
+                            <span class="card-year">November 2025 &ndash; Present</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">General Secretary</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">Secretary of TRIAKSANG 2026</li>
+                                <li class="pill-bar">Secretary of FASILKOM NIGHT 2026</li>
+                            </ul>
+                            <ul class="skill-tags">
+                                <li class="skill-tag">Documentation</li>
+                                <li class="skill-tag">Organization</li>
+                            </ul>
+                        </div>
+                    </div>
 
-/* Header / nav pill bar */
-.site-header {
-    padding-top: 1.5rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    padding-bottom: 0.5rem;
-}
+                    <div class="card-item">
+                        <div class="card-header">
+                            <h3>COMPFEST 2026</h3>
+                            <span class="card-year">April 2026 &ndash; Present</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Staff Case of Business IT Case Competition</p>
+                            <ul class="skill-tags">
+                                <li class="skill-tag">Case Design</li>
+                                <li class="skill-tag">Business IT</li>
+                            </ul>
+                        </div>
+                    </div>
 
-.site-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: var(--radius);
-    padding: 0.85rem 1.75rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
+                    <div class="card-item">
+                        <div class="card-header">
+                            <h3>BETIS Fasilkom UI 2025</h3>
+                            <span class="card-year">Februari 2026 &ndash; July 2026</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Member of Human Resource Development</p>
+                            <ul class="skill-tags">
+                                <li class="skill-tag">HR Management</li>
+                                <li class="skill-tag">Recruitment</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-.brand {
-    font-family: "Instrument Serif", serif;
-    font-style: italic;
-    font-size: 1.4rem;
-    font-weight: 400;
-    color: var(--ink);
-    text-decoration: none;
-}
+        <section class="awards" id="awards">
+            <div class="container">
+                <h2>Awards</h2>
 
-.site-header nav {
-    display: flex;
-    gap: 1.75rem;
-}
+                <div class="category-filter" id="categoryFilter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="Business Case">Business Case</button>
+                    <button class="filter-btn" data-filter="Business Plan">Business Plan</button>
+                    <button class="filter-btn" data-filter="Mini Case">Mini Case</button>
+                </div>
+                <div class="awards-list">
+                    <div class="card-item" data-category="Business Case">
+                        <div class="card-header">
+                            <h3>Finalist of BIZIONARY Business Case Competition 2026</h3>
+                            <span class="card-year">August 2026</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Issued by Himpunan Mahasiswa Bisnis Internasional, Faculty of Vocational Studies, Universitas Padjadjaran</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">National</li>
+                            </ul>
+                            <span class="category-badge">Business Case</span>
+                        </div>
+                    </div>
 
-.site-header nav a {
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding-bottom: 0.2rem;
-}
+                    <div class="card-item" data-category="Business Plan">
+                        <div class="card-header">
+                            <h3>Finalist of Veternity Business Plan Competition 2026</h3>
+                            <span class="card-year">August 2026</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Issued by Himpunan Mahasiswa Prodi Informatika UPNVYK</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">National</li>
+                            </ul>
+                            <span class="category-badge">Business Plan</span>
+                        </div>
+                    </div>
 
-.site-header nav a.active {
-    color: var(--accent-pink);
-    border-bottom: 2px solid var(--accent-pink);
-}
+                    <div class="card-item" data-category="Mini Case">
+                        <div class="card-header">
+                            <h3>1st Place of Pekan Ristek Mini Case Competition Collaborated With tiket.com 2025</h3>
+                            <span class="card-year">November 2025</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Issued by RISTEK Fasilkom UI</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">Fasilkom UI</li>
+                            </ul>
+                            <span class="category-badge">Mini Case</span>
+                        </div>
+                    </div>
 
-.hero {
-    padding: 4rem 0 5rem;
-}
+                    <div class="card-item" data-category="Business Case">
+                        <div class="card-header">
+                            <h3>Top 25 of National Business Case Competition by DreamCareer 2026</h3>
+                            <span class="card-year">July 2026</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Issued by DreamCareer 2026</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">National</li>
+                            </ul>
+                            <span class="category-badge">Business Case</span>
+                        </div>
+                    </div>
 
-.hero-grid {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    grid-template-areas:
-        "identity photo"
-        "details  photo";
-    gap: 1.5rem 3rem;
-}
+                    <div class="card-item" data-category="Business Plan">
+                        <div class="card-header">
+                            <h3>Semi Finalist of IDEAS Batch 12</h3>
+                            <span class="card-year">June 2026</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Issued by The 20th Management's Events</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">National</li>
+                            </ul>
+                            <span class="category-badge">Business Plan</span>
+                        </div>
+                    </div>
 
-.hero-identity {
-    grid-area: identity;
-}
+                    <div class="card-item" data-category="Business Plan">
+                        <div class="card-header">
+                            <h3>Semi Finalist of The 115th UI Studentpreneurs 2025</h3>
+                            <span class="card-year">November 2025</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Issued by Departemen ELD BEM FEB UI</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">National</li>
+                            </ul>
+                            <span class="category-badge">Business Plan</span>
+                        </div>
+                    </div>
 
-.hero-details {
-    grid-area: details;
-}
+                    <div class="card-item" data-category="Business Plan">
+                        <div class="card-header">
+                            <h3>Semi Finalist of Isola Business Competition</h3>
+                            <span class="card-year">October 2025</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Issued by BEM REMA UPI and HIPMI PT UPI</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">National</li>
+                            </ul>
+                            <span class="category-badge">Business Plan</span>
+                        </div>
+                    </div>
 
-.hero-kicker {
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink);
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    opacity: 0.75;
-}
+                    <div class="card-item" data-category="Business Plan">
+                        <div class="card-header">
+                            <h3>Semi Finalist of Garuda Business Plan Competition</h3>
+                            <span class="card-year">July 2026</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Issued by Gerakan Wirausaha Muda Unissula</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">National</li>
+                            </ul>
+                            <span class="category-badge">Business Plan</span>
+                        </div>
+                    </div>
 
-.hero-identity h1 {
-    font-size: clamp(2.2rem, 5vw, 3.2rem);
-    line-height: 1.15;
-    color: var(--cream);
-    font-weight: 700;
-}
+                    <div class="card-item" data-category="Business Plan">
+                        <div class="card-header">
+                            <h3>Semi Finalist of Business Plan Competition Innovators Clash Vol.2</h3>
+                            <span class="card-year">July 2026</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-org">Issued by HIMA Kewirausahaan UPI Tasikmalaya</p>
+                            <ul class="pill-bar-list">
+                                <li class="pill-bar">National</li>
+                            </ul>
+                            <span class="category-badge">Business Plan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-.hero-identity h1::before {
-    content: "Hello, I'm ";
-    display: block;
-    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-    font-weight: 700;
-    color: var(--cream);
-}
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Rakhel. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+        </div>
+    </footer>
+    <script>
+        const sections = document.querySelectorAll('main section[id]');
+        const navLinks = document.querySelectorAll('.site-header nav a');
 
-.name-highlight {
-    font-style: italic;
-    color: var(--brown-dark);
-}
+        function setActiveLink() {
+            let currentId = sections[0].id;
+            const offset = 120; // account for sticky header height
 
-.bio {
-    color: var(--text-muted);
-    max-width: 480px;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-}
+            sections.forEach(section => {
+                if (window.scrollY + offset >= section.offsetTop) {
+                    currentId = section.id;
+                }
+            });
 
-.meta-list {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-}
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
+            });
+        }
 
-.meta-row dt {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-style: italic;
-    color: var(--brown-dark);
-    font-weight: 700;
-    margin-bottom: 0.4rem;
-}
+        window.addEventListener('scroll', setActiveLink);
+        window.addEventListener('load', setActiveLink);
 
-.meta-row dd {
-    font-weight: 600;
-    background-color: var(--pill-bg);
-    color: var(--accent-pink);
-    display: inline-block;
-    padding: 0.5rem 1.25rem;
-    border-radius: var(--radius);
-}
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const awardCards = document.querySelectorAll('.awards-list .card-item');
 
-.social-links {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-    background-color: var(--pill-bg);
-    border: 2px solid var(--accent-green);
-    border-radius: var(--radius);
-    padding: 1.5rem 1.5rem 1rem;
-    margin: 1.75rem auto 0;
-    max-width: 260px;
-    position: relative;
-}
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
 
-.social-links::before {
-    content: "Connect with Me!";
-    position: absolute;
-    top: -0.7rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--pill-bg);
-    color: var(--brown-dark);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 0.8rem;
-    padding: 0 0.75rem;
-    white-space: nowrap;
-    line-height: 1.4;
-}
-
-.social-link {
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-decoration: underline;
-    color: var(--brown-dark);
-    transition: opacity 0.2s ease;
-    white-space: nowrap;
-}
-
-.social-link:hover {
-    opacity: 0.7;
-}
-
-.hero-photo {
-    grid-area: photo;
-    align-self: start;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.photo-block {
-    display: none;
-}
-
-.avatar {
-    position: relative;
-    z-index: 1;
-    display: block;
-    width: 100%;
-    max-width: 260px;
-    margin: 0 auto;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: var(--radius-card);
-    border: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-.experience,
-.awards {
-    padding: 2rem 0 4rem;
-}
-
-.experience h2,
-.awards h2 {
-    font-family: "Instrument Serif", serif;
-    font-style: italic;
-    font-size: clamp(2rem, 4vw, 2.8rem);
-    font-weight: 400;
-    color: var(--brown-dark);
-    margin-bottom: 1.5rem;
-}
-
-/* Skill tags */
-.skill-tags {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-top: 0.9rem;
-}
-
-.skill-tag {
-    background: linear-gradient(90deg, #9db56e 0%, #86a15e 100%);
-    color: var(--cream);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 0.82rem;
-    padding: 0.4rem 1.1rem;
-    border-radius: var(--radius);
-}
-
-.experience-list,
-.awards-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.card-item {
-    background-color: #fdf1f0;
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    background: linear-gradient(90deg, #8a4460 0%, #9a7d6c 55%, #93a568 100%);
-    padding: 0.9rem 1.75rem;
-}
-
-.card-header h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--cream);
-}
-
-.card-year {
-    font-style: italic;
-    font-weight: 700;
-    color: var(--cream);
-    font-size: 0.95rem;
-    white-space: nowrap;
-}
-
-.card-body {
-    padding: 1.25rem 1.75rem 1.5rem;
-}
-
-.card-org {
-    font-style: italic;
-    color: var(--ink);
-    font-weight: 600;
-    margin-bottom: 0.9rem;
-}
-
-.pill-bar-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-}
-
-.pill-bar {
-    background-color: #b5638a;
-    color: var(--cream);
-    font-weight: 700;
-    font-size: 0.88rem;
-    text-align: center;
-    padding: 0.65rem 1rem;
-    border-radius: 6px;
-    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
-}
-
-.card-position {
-    margin-top: 1.1rem;
-}
-
-.card-position:first-child {
-    margin-top: 0;
-}
-
-.category-filter {
-    display: flex;
-    width: 100%;
-    background-color: var(--pill-bg);
-    border-radius: var(--radius);
-    padding: 0.35rem;
-    gap: 0.25rem;
-    margin-bottom: 1.75rem;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-}
-
-.filter-btn {
-    flex: 1;
-    border: none;
-    background: transparent;
-    color: var(--ink);
-    font-weight: 600;
-    font-size: 0.88rem;
-    padding: 0.7rem 1.25rem;
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.filter-btn:hover {
-    background-color: rgba(28, 25, 23, 0.06);
-}
-
-.filter-btn.active {
-    background-color: var(--dark-green);
-    color: var(--cream);
-    font-weight: 700;
-}
-
-.card-position-title {
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 0.6rem;
-    font-size: 0.95rem;
-}
-
-.category-badge {
-    display: block;
-    margin-top: 0.6rem;
-    background-color: var(--dark-green);
-    color: var(--cream);
-    font-weight: 700;
-    font-size: 0.88rem;
-    text-align: center;
-    padding: 0.65rem 1rem;
-    border-radius: 6px;
-    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
-}
-
-.site-footer {
-    padding: 1.5rem;
-    color: var(--ink);
-    font-size: 0.85rem;
-    text-align: center;
-}
-
-@media (max-width: 600px) {
-    .site-header nav {
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-
-    .hero-grid {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "identity"
-            "photo"
-            "details";
-    }
-
-    .hero-photo {
-        max-width: 220px;
-        margin: 0 auto;
-    }
-}
+                awardCards.forEach(card => {
+                    const match = filter === 'all' || card.getAttribute('data-category') === filter;
+                    card.style.display = match ? '' : 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
