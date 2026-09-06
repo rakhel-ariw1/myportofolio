@@ -334,16 +334,16 @@ h1, .brand {
 }
 
 .category-badge {
-    display: inline-block;
-    margin-top: 0.85rem;
-    background-color: var(--accent-green);
-    color: var(--brown-dark);
+    display: block;
+    margin-top: 0.6rem;
+    background-color: #b5638a;
+    color: var(--cream);
     font-weight: 700;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    padding: 0.3rem 0.9rem;
-    border-radius: var(--radius);
+    font-size: 0.88rem;
+    text-align: center;
+    padding: 0.65rem 1rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .site-footer {
