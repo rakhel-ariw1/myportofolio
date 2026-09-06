@@ -20,7 +20,7 @@ body {
     font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: var(--cream);
     line-height: 1.6;
-    background-image: url("/static/img/BackgroundProfile.jpg");
+    background-image: url("/static/img/BackgroundProfile.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -164,20 +164,22 @@ h1, .brand {
 
 .social-links {
     display: inline-flex;
+    justify-content: center;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1.5rem;
     flex-wrap: wrap;
     background-color: var(--pill-bg);
     border: 2px solid var(--accent-green);
     border-radius: var(--radius);
-    padding: 0.9rem 1.75rem;
+    padding: 1.5rem 2rem 1rem;
+    margin-top: 1.5rem;
     position: relative;
 }
 
 .social-links::before {
     content: "Connect with Me!";
     position: absolute;
-    top: -0.65rem;
+    top: -0.7rem;
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--pill-bg);
@@ -186,6 +188,8 @@ h1, .brand {
     font-weight: 700;
     font-size: 0.8rem;
     padding: 0 0.75rem;
+    white-space: nowrap;
+    line-height: 1.4;
 }
 
 .social-link {
@@ -194,6 +198,7 @@ h1, .brand {
     text-decoration: underline;
     color: var(--accent-green-dark);
     transition: color 0.2s ease;
+    white-space: nowrap;
 }
 
 .social-link:hover {
