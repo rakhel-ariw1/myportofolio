@@ -12,6 +12,7 @@
     --accent-pink: #d98bb0;
     --text-muted: rgba(250, 246, 238, 0.85);
     --pill-bg: rgba(255, 255, 255, 0.92);
+    --brown-dark: #5c3a21;
     --radius: 999px;
     --radius-card: 24px;
 }
@@ -41,6 +42,10 @@ h1, .brand {
 /* Header / nav pill bar */
 .site-header {
     padding-top: 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding-bottom: 0.5rem;
 }
 
 .site-header .container {
@@ -73,7 +78,7 @@ h1, .brand {
     padding-bottom: 0.2rem;
 }
 
-.site-header nav a:first-child {
+.site-header nav a.active {
     color: var(--accent-pink);
     border-bottom: 2px solid var(--accent-pink);
 }
@@ -126,7 +131,7 @@ h1, .brand {
 
 .name-highlight {
     font-style: italic;
-    color: var(--accent-green);
+    color: var(--brown-dark);
 }
 
 .bio {
@@ -148,7 +153,7 @@ h1, .brand {
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-style: italic;
-    color: var(--accent-green);
+    color: var(--brown-dark);
     font-weight: 700;
     margin-bottom: 0.4rem;
 }
@@ -207,7 +212,7 @@ h1, .brand {
 
 .hero-photo {
     grid-area: photo;
-    align-self: center;
+    align-self: start;
     position: relative;
 }
 
@@ -238,7 +243,7 @@ h1, .brand {
 .awards h2 {
     font-family: "Space Grotesk", -apple-system, sans-serif;
     font-size: clamp(1.6rem, 3vw, 2.2rem);
-    color: var(--cream);
+    color: var(--brown-dark);
     margin-bottom: 1.5rem;
 }
 

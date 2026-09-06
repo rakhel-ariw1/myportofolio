@@ -14,7 +14,7 @@
         <div class="container">
             <a href="#profile" class="brand">Rakhel Aqeela Hapsari Ariwibowo</a>
             <nav>
-                <a href="#profile">Profile</a>
+                <a href="#profile" class="active">Profile</a>
                 <a href="#experience">Experience</a>
                 <a href="#awards">Awards</a>
             </nav>
@@ -95,5 +95,27 @@
             <p>&copy; 2026 Rakhel. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
     </footer>
+    <script>
+        const sections = document.querySelectorAll('main section[id]');
+        const navLinks = document.querySelectorAll('.site-header nav a');
+
+        function setActiveLink() {
+            let currentId = sections[0].id;
+            const offset = 120; // account for sticky header height
+
+            sections.forEach(section => {
+                if (window.scrollY + offset >= section.offsetTop) {
+                    currentId = section.id;
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
+            });
+        }
+
+        window.addEventListener('scroll', setActiveLink);
+        window.addEventListener('load', setActiveLink);
+    </script>
 </body>
 </html>
