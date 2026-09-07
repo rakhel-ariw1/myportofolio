@@ -61,7 +61,7 @@ h1, .brand {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.35);
+    background-color: rgba(120, 40, 75, 0.45);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.4);
@@ -75,8 +75,9 @@ h1, .brand {
     font-style: italic;
     font-size: 1.4rem;
     font-weight: 400;
-    color: var(--ink);
+    color: var(--cream);
     text-decoration: none;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .site-header nav {
@@ -85,17 +86,18 @@ h1, .brand {
 }
 
 .site-header nav a {
-    color: var(--nav-pink);
+    color: var(--cream);
     text-decoration: none;
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 700;
     padding-bottom: 0.2rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .site-header nav a.active {
-    color: var(--nav-pink);
+    color: var(--cream);
     font-weight: 700;
-    border-bottom: 2px solid var(--nav-pink);
+    border-bottom: 2px solid var(--cream);
 }
 
 .hero {
