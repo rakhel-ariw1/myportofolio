@@ -17,7 +17,19 @@ def show_main(request):
 
 def show_experience(request):
     context = {
-        "name": "Rakhel",
+        "name": "Rakhel Aqeela Hapsari Ariwibowo",
         "experience_list": Experience.objects.all(),
     }
     return render(request, "experience.html", context)
+
+Experience.objects.create(
+    title="Asisten Dosen Kalkulus 1",
+    description="Membantu mahasiswa memahami dasar kalkulus.",
+    category="part-time",
+)
+
+Experience.objects.create(
+    title="Member of Business Growth and Partnership at RISTEK Fasilkom UI",
+    description="Membantu growth dan mencari partnership.",
+    category="volunteer",
+)
