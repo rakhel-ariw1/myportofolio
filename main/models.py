@@ -24,3 +24,20 @@ class Experience(models.Model):
     @property
     def is_ongoing(self):
         return self.ended_at is None
+
+class Achievement(models.Model):
+    CATEGORY_CHOICES = [
+        ('business_case', 'Business Case'),
+        ('business_plan', 'Business Plan'),
+        ('mini_case', 'Mini Case'),
+        ('hackathon', 'Hackathon'),
+    ]
+
+    title = models.CharField(max_length=255)
+    issuer = models.CharField(max_length=255)
+    year = models.CharField(max_length=50)  # contoh: "August 2026"
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    level = models.CharField(max_length=100)  # contoh: "National" atau "Fasilkom UI"
+
+    def __str__(self):
+        return self.title
