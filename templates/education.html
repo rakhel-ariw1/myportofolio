@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block meta %}
+    <title>Education - {{ name }}</title>
+{% endblock meta %}
+{% block content %}
+    <main>
+        <section class="education-section" id="education">
+            <div class="container">
+                <p class="section-kicker">Pendidikan yang saya tempuh</p>
+                <div class="project-header">
+                    <h1>Education</h1>
+                    <a href="{% url 'main:create_education' %}"
+                       class="button project-add-button">
+                        <span aria-hidden="true">+</span>
+                        Tambah Pendidikan
+                    </a>
+                </div>
+                <form method="get"
+                      action="{% url 'main:show_education' %}"
+                      class="education-search">
+                    <input type="search"
+                           name="title"
+                           value="{{ title_query }}"
+                           placeholder="Cari berdasarkan nama pendidikan"
+                           class="education-search__input"
+                           aria-label="Cari berdasarkan nama pendidikan">
+                    <button type="submit" class="button">Cari</button>
+                </form>
+                <div class="education-grid education">
+                    {% for project in project_list %}
+                        <article class="education-card">
+                            {% if project.project_image_url %}
+                                <img src="{{ education.education_image_url }}"
+                                     alt="Gambar {{ education.title }}"
+                                     class="education-image">
+                            {% endif %}
+                            <h2>{{ project.title }}</h2>
+                            <span class="education-category">{{ education.tech_stack }}</span>
+                            <p class="education-description">{{ education.description }}</p>
+                            <div class="education-card-actions">
+                                <div class="education-actions">
+                                    {% if project.project_url %}
+                                        <a href="{{ education.education_url }}" class="button">Lihat Education</a>
+                                    {% endif %}
+                                    {% include "components/education_delete_modal.html" with education=education %}
+                                </div>
+                            </div>
+                        </article>
+                    {% empty %}
+                        {% if title_query %}
+                            <p class="empty-state">Tidak ada pendidikan dengan nama tersebut.</p>
+                        {% else %}
+                            <p class="empty-state">Belum ada pendidikan yang ditambahkan.</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}

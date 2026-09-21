@@ -52,3 +52,26 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+class Education(models.Model):
+    JENJANG_CHOICES = [
+        ('sma_smk', 'SMA/SMK'),
+        ('s1', 'S1'),
+        ('s2', 'S2'),
+        ('s3', 'S3'),
+    ]
+ 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nama_institusi = models.CharField(max_length=255)
+    jenjang = models.CharField(max_length=20, choices=JENJANG_CHOICES, default='s1')
+    tahun_mulai = models.IntegerField()
+    tahun_selesai = models.IntegerField(blank=True, null=True)
+    deskripsi = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+ 
+    def __str__(self):
+        return f"{self.get_jenjang_display()} - {self.nama_institusi}"
+ 
+    @property
+    def is_ongoing(self):
+        return self.tahun_selesai is None
