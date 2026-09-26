@@ -39,7 +39,27 @@
                             <div class="education-card-actions">
                                 <div class="education-actions">
                                     <a href="{% url 'main:update_education' education.id %}" class="button">Edit</a>
-                                    {% include "components/education_delete_modal.html" with education=education %}
+
+                                    <button type="button"
+                                            class="button button-danger"
+                                            onclick="document.getElementById('delete-modal-{{ education.id }}').showModal()">
+                                        Hapus
+                                    </button>
+
+                                    <dialog id="delete-modal-{{ education.id }}" class="delete-modal">
+                                        <form method="post" action="{% url 'main:delete_education' education.id %}">
+                                            {% csrf_token %}
+                                            <p>Yakin ingin menghapus riwayat pendidikan "{{ education.nama_institusi }}"?</p>
+                                            <div class="modal-actions">
+                                                <button type="submit" class="button button-danger">Ya, Hapus</button>
+                                                <button type="button"
+                                                        class="button button-secondary"
+                                                        onclick="document.getElementById('delete-modal-{{ education.id }}').close()">
+                                                    Batal
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </dialog>
                                 </div>
                             </div>
                         </article>
