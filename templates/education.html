@@ -27,21 +27,18 @@
                     <button type="submit" class="button">Cari</button>
                 </form>
                 <div class="education-grid education">
-                    {% for project in project_list %}
+                    {% for education in education_list %}
                         <article class="education-card">
-                            {% if project.project_image_url %}
-                                <img src="{{ education.education_image_url }}"
-                                     alt="Gambar {{ education.title }}"
-                                     class="education-image">
-                            {% endif %}
-                            <h2>{{ project.title }}</h2>
-                            <span class="education-category">{{ education.tech_stack }}</span>
-                            <p class="education-description">{{ education.description }}</p>
+                            <h2>{{ education.nama_institusi }}</h2>
+                            <span class="education-category">{{ education.get_jenjang_display }}</span>
+                            <p class="education-years">
+                                {{ education.tahun_mulai }} -
+                                {% if education.tahun_selesai %}{{ education.tahun_selesai }}{% else %}Sekarang{% endif %}
+                            </p>
+                            <p class="education-description">{{ education.deskripsi }}</p>
                             <div class="education-card-actions">
                                 <div class="education-actions">
-                                    {% if project.project_url %}
-                                        <a href="{{ education.education_url }}" class="button">Lihat Education</a>
-                                    {% endif %}
+                                    <a href="{% url 'main:update_education' education.id %}" class="button">Edit</a>
                                     {% include "components/education_delete_modal.html" with education=education %}
                                 </div>
                             </div>
