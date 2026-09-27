@@ -1,48 +1,44 @@
-{% extends "base.html" %}
+<html><head></head><body>{% extends "base.html" %}
 {% block meta %}
     <title>Projects - {{ name }}</title>
 {% endblock meta %}
 {% block content %}
     <main>
-        <section class="experience-section" id="experience">
+        <section class="entry-section" id="project">
             <div class="container">
                 <p class="section-kicker">Karya yang saya bangun</p>
-                <div class="project-header">
+                <div class="entry-header">
                     <h1>Projects</h1>
-                    <a href="{% url 'main:create_project' %}"
-                       class="button project-add-button">
+                    <a href="{% url 'main:create_project' %}" class="button entry-add-button">
                         <span aria-hidden="true">+</span>
                         Tambah Proyek
                     </a>
                 </div>
-                <form method="get"
-                      action="{% url 'main:show_projects' %}"
-                      class="project-search">
-                    <input type="search"
-                           name="title"
-                           value="{{ title_query }}"
-                           placeholder="Cari berdasarkan nama proyek"
-                           class="project-search__input"
-                           aria-label="Cari berdasarkan nama proyek">
+                <form method="get" action="{% url 'main:show_projects' %}" class="entry-search">
+                    <input type="search" name="title" value="{{ title_query }}" placeholder="Cari berdasarkan nama proyek" class="entry-search__input" aria-label="Cari berdasarkan nama proyek">
                     <button type="submit" class="button">Cari</button>
                 </form>
-                <div class="experience-grid project-grid">
+                <div class="entry-grid grid-2col">
                     {% for project in project_list %}
-                        <article class="experience-card">
+                        <article class="entry-card">
+                            <div class="entry-card__header">
+                                <h2>{{ project.title }}</h2>
+                            </div>
                             {% if project.project_image_url %}
-                                <img src="{{ project.project_image_url }}"
-                                     alt="Gambar {{ project.title }}"
-                                     class="project-image">
+                                <div class="entry-card__media">
+                                    <img src="{{ project.project_image_url }}" alt="Gambar {{ project.title }}" class="entry-image">
+                                </div>
                             {% endif %}
-                            <h2>{{ project.title }}</h2>
-                            <span class="experience-category">{{ project.tech_stack }}</span>
-                            <p class="experience-description">{{ project.description }}</p>
-                            <div class="project-card-actions">
-                                <div class="project-actions">
+                            <div class="entry-card__body">
+                                <span class="entry-category">{{ project.tech_stack }}</span>
+                                <p class="entry-description">{{ project.description }}</p>
+                            </div>
+                            <div class="entry-card-actions">
+                                <div class="entry-actions">
                                     {% if project.project_url %}
                                         <a href="{{ project.project_url }}" class="button">Lihat Project</a>
                                     {% endif %}
-                                    {% include "components/project_delete_modal.html" with project=project %}
+                                    {% include "components/project_delete_modal.html" with item=project item_label=project.title delete_url_name="main:delete_project" modal_title="Hapus Projek?" button_label="Hapus Proyek" %}
                                 </div>
                             </div>
                         </article>
@@ -57,4 +53,4 @@
             </div>
         </section>
     </main>
-{% endblock content %}
+{% endblock content %}</body></html>

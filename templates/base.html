@@ -1,29 +1,40 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en"><head></head><body>{% load static %}
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
     {% block meta %} {% endblock meta %}
-</head>
 
-<body>
+
+
   <header class="site-header">
         <div class="container">
             <a href="#profile" class="brand">{{ name }}</a>
             <nav>
-                <a href="{% url 'main:show_main' %}">Profile</a>
-                <a href="{% url 'main:show_experience' %}">Experience</a>
-                <a href="{% url 'main:show_achievement' %}">Achievement</a>
-                <a href="{% url 'main:show_projects' %}">Project</a>
-                <a href="{% url 'main:show_education' %}">Education</a>
+                <a href="{% url 'main:show_main' %}" class="{% if request.resolver_match.url_name == 'show_main' %}active{% endif %}">Profile</a>
+                <a href="{% url 'main:show_experience' %}" class="{% if request.resolver_match.url_name == 'show_experience' %}active{% endif %}">Experience</a>
+                <a href="{% url 'main:show_achievement' %}" class="{% if request.resolver_match.url_name == 'show_achievement' %}active{% endif %}">Achievement</a>
+                <a href="{% url 'main:show_projects' %}" class="{% if request.resolver_match.url_name == 'show_projects' %}active{% endif %}">Project</a>
+                <a href="{% url 'main:show_education' %}" class="{% if request.resolver_match.url_name == 'show_education' %}active{% endif %}">Education</a>
             </nav>
         </div>
     </header>
+
+    {% if messages %}
+        <div class="container">
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="message message--{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
   {% block content %} {% endblock content %}
 
   <footer class="site-footer">
@@ -31,7 +42,7 @@
             <div class="container footer-grid">
                 <div class="footer-brand">
                     <h3>Rakhel Aqeela Hapsari Ariwibowo</h3>
-                    <p class="footer-tagline">Let&rsquo;s connect with me!</p>
+                    <p class="footer-tagline">Let’s connect with me!</p>
                     <div class="footer-social">
                         <a href="https://github.com/rakhel-ariw1" class="footer-link">GitHub</a>
                         <a href="https://www.linkedin.com/in/rakhel-aqeela-hapsari-ariwibowo-5611a136b/" class="footer-link">LinkedIn</a>
@@ -61,46 +72,8 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+            <p>© 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
     </footer>
-    <script>
-        const sections = document.querySelectorAll('main section[id]');
-        const navLinks = document.querySelectorAll('.site-header nav a');
 
-        function setActiveLink() {
-            let currentId = sections[0].id;
-            const offset = 120; // account for sticky header height
-
-            sections.forEach(section => {
-                if (window.scrollY + offset >= section.offsetTop) {
-                    currentId = section.id;
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
-            });
-        }
-
-        window.addEventListener('scroll', setActiveLink);
-        window.addEventListener('load', setActiveLink);
-
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const awardCards = document.querySelectorAll('.awards-list .card-item');
-
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const filter = btn.getAttribute('data-filter');
-
-                awardCards.forEach(card => {
-                    const match = filter === 'all' || card.getAttribute('data-category') === filter;
-                    card.style.display = match ? '' : 'none';
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+</body></html>

@@ -1,29 +1,36 @@
-{% extends 'base.html' %}
-    {% block content %}
+<html><head></head><body>{% extends "base.html" %}
+{% block meta %}
+    <title>Achievement - {{ name }}</title>
+{% endblock meta %}
+{% block content %}
     <main>
-        <section class="achievement-section" id="achievement">
+        <section class="entry-section" id="achievement">
             <div class="container">
-                <p class="section-kicker">Perjalanan saya sejauh ini</p>
-                <h1>Achievement</h1>   
-                    <div class="achievement-grid">
-                        {% for achievement in achievement_list %}   
-                            <article class="achievement-card">
-                                <span class="achievement-category">
+                <p class="section-kicker">Pencapaian yang saya raih</p>
+                <h1>Achievement</h1>
+                <div class="entry-grid">
+                    {% for achievement in achievement_list %}
+                        <article class="entry-card">
+                            <div class="entry-card__header">
+                                <h2>{{ achievement.title }}</h2>
+                            </div>
+                            <div class="entry-card__body">
+                                <span class="entry-category">
                                     {{ achievement.get_category_display }}
                                 </span>
-                                <h2>{{ achievement.title }}</h2>
-                                <p class="achievement-description">
+                                <p class="entry-description">
                                     {{ achievement.issuer }} — {{ achievement.year }}
                                 </p>
-                                <p class="achievement-status">{{ achievement.level }}</p>
-                            </article>
-                        {% empty %}
-                            <p class="empty-state">
-                                Belum ada achievement yang ditambahkan.
-                            </p>
-                        {% endfor %}
-                    </div>
+                                <p class="entry-status">{{ achievement.level }}</p>
+                            </div>
+                        </article>
+                    {% empty %}
+                        <p class="empty-state">
+                            Belum ada achievement yang ditambahkan.
+                        </p>
+                    {% endfor %}
+                </div>
             </div>
         </section>
     </main>
-    {% endblock content %}
+{% endblock content %}</body></html>
