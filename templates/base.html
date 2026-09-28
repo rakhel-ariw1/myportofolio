@@ -21,9 +21,16 @@
                 <a href="{% url 'main:show_achievement' %}" class="{% if request.resolver_match.url_name == 'show_achievement' %}active{% endif %}">Achievement</a>
                 <a href="{% url 'main:show_projects' %}" class="{% if request.resolver_match.url_name == 'show_projects' %}active{% endif %}">Project</a>
                 <a href="{% url 'main:show_education' %}" class="{% if request.resolver_match.url_name == 'show_education' %}active{% endif %}">Education</a>
-            </nav>
-        </div>
-    </header>
+                {% if user.is_authenticated %}
+                    <span class="nav-user">{{ user.username }}</span>
+                    <a href="{% url 'main:logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'main:login' %}">Login</a>
+                    <a href="{% url 'main:register' %}">Register</a>
+                {% endif %}
+                </nav>
+            </div>
+        </header>
 
     {% if messages %}
         <div class="container">
