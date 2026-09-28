@@ -15,7 +15,7 @@ import datetime
 
 import json
 from django.db.models import F
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.views.decorators.http import require_POST
 
 from django.contrib.auth.decorators import login_required  
@@ -56,6 +56,9 @@ def show_achievement(request):
 
 @login_required(login_url="/login/")
 def create_project(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Anda tidak memiliki akses untuk menambah data.")
+    
     form = ProjectForm(request.POST or None)
 
     if not request.user.is_superuser:
@@ -77,6 +80,7 @@ def show_projects(request):
     context = {
         "name": "Rakhel Aqeela Hapsari Ariwibowo",
         "project_list": Project.objects.all(),
+        'is_editor': is_editor(request.user) if request.user.is_authenticated else False,
     }
     return render(request, "project.html", context)
 
@@ -96,6 +100,9 @@ def get_projects_json(request):
 
 @login_required(login_url="/login/")
 def delete_project(request, project_id):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Anda tidak memiliki akses untuk menambah data.")
+    
     project = get_object_or_404(Project, pk=project_id)
 
     if request.method == "POST":
@@ -235,3 +242,26 @@ def logout_user(request):
     response = redirect("main:show_main")
     response.delete_cookie('last_login')
     return response
+
+def is_editor(user):
+    return user.groups.filter(name='Editor').exists()
+
+def is_portfolio_owner(user, project=None):
+    if user.is_superuser:
+        return True
+    if project and hasattr(project, 'user'):
+        return project.user == user
+    return False
+
+def project_list_json(request):
+    projects = Project.objects.all()
+    data = [
+        {
+            'id': p.id,
+            'title': p.title,
+            'description': p.description,
+            'total_stars': p.total_stars(),
+        }
+        for p in projects
+    ]
+    return JsonResponse({'projects': data}, safe=False)

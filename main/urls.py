@@ -30,6 +30,7 @@ urlpatterns = [
     path("projects/<uuid:project_id>/delete/",delete_project,name="delete_project"),
     path("projects/star/<uuid:project_id>/", star_project, name="star_project"), 
     path("projects/<uuid:project_id>/star/", toggle_star, name="toggle_star"),
+    path('project/<int:pk>/star/', toggle_star, name='toggle_star'),
     path("education/", show_education, name="show_education"),
     path("education/add/", create_education, name="create_education"),
     path("education/<uuid:education_id>/edit/", update_education, name="update_education"),
