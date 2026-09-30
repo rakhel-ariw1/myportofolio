@@ -1,0 +1,16 @@
+<html><head></head><body>{% extends "base.html" %}
+{% block meta %}
+    <title>403 Forbidden - {{ name }}</title>
+{% endblock meta %}
+{% block content %}
+    <main>
+        <section class="entry-section">
+            <div class="container">
+                <h1>403 Forbidden</h1>
+                <p class="section-kicker">Kamu tidak punya izin untuk melakukan aksi ini.</p>
+                <a href="{% url 'main:show_main' %}" class="button">Kembali ke beranda</a>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+</body></html>
