@@ -1,0 +1,37 @@
+<dialog
+    id="education-form-modal"
+    class="education-modal"
+    aria-labelledby="education-modal-title"
+>
+    <div class="education-modal__content">
+        <button
+            type="button"
+            id="close-education-modal"
+            class="education-modal__close"
+            aria-label="Tutup form tambah pendidikan"
+        >×</button>
+        <p class="section-kicker">Entri baru</p>
+        <h2 id="education-modal-title">Tambah Pendidikan</h2>
+        <p class="education-modal__intro">Lengkapi informasi berikut untuk menambah perjalanan pendidikan.</p>
+
+        <div id="education-form-errors" class="form-summary-error hide" role="alert"></div>
+        <form
+            id="education-form"
+            method="post"
+            action="{% url 'main:create_education' %}"
+            class="education-form"
+        >
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <div class="education-modal__actions">
+                <button type="button" id="cancel-education-modal" class="button button-secondary">Batal</button>
+                <button type="submit" class="button">Simpan Pendidikan</button>
+            </div>
+        </form>
+    </div>
+</dialog>

@@ -78,6 +78,11 @@ class Education(models.Model):
     tahun_selesai = models.IntegerField(blank=True, null=True)
     deskripsi = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    starred_by = models.ManyToManyField(
+        User,
+        related_name="starred_educations",
+        blank=True,
+    )
  
     def __str__(self):
         return f"{self.get_jenjang_display()} - {self.nama_institusi}"

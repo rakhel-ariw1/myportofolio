@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.forms import ModelForm, TextInput, Textarea, URLInput, NumberInput, Select
 
 from main.models import Project, Education
@@ -110,3 +112,36 @@ class EducationForm(ModelForm):
                 }
             ),
         }
+
+    def clean_nama_institusi(self):
+        nama_institusi = strip_tags(self.cleaned_data["nama_institusi"]).strip()
+        if not nama_institusi:
+            raise ValidationError("Nama institusi tidak boleh kosong atau hanya berisi tag HTML.")
+        return nama_institusi
+
+    def clean_deskripsi(self):
+        return strip_tags(self.cleaned_data.get("deskripsi", "")).strip()
+
+    def clean(self):
+        cleaned_data = super().clean()
+        tahun_mulai = cleaned_data.get("tahun_mulai")
+        tahun_selesai = cleaned_data.get("tahun_selesai")
+        maximum_year = date.today().year + 10
+
+        if tahun_mulai and not 1900 <= tahun_mulai <= maximum_year:
+            self.add_error(
+                "tahun_mulai",
+                f"Tahun mulai harus berada di antara 1900 dan {maximum_year}.",
+            )
+        if tahun_selesai and not 1900 <= tahun_selesai <= maximum_year:
+            self.add_error(
+                "tahun_selesai",
+                f"Tahun selesai harus berada di antara 1900 dan {maximum_year}.",
+            )
+        if tahun_mulai and tahun_selesai and tahun_selesai < tahun_mulai:
+            self.add_error(
+                "tahun_selesai",
+                "Tahun selesai tidak boleh lebih awal daripada tahun mulai.",
+            )
+
+        return cleaned_data

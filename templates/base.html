@@ -1,20 +1,19 @@
-<html lang="en"><head></head><body>{% load static %}
-
-
-
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block meta %} {% endblock meta %}
-
-
-
-  <header class="site-header">
+</head>
+<body>
+    <header class="site-header">
         <div class="container">
-            <a href="#profile" class="brand">{{ name }}</a>
+            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
             <nav>
                 <a href="{% url 'main:show_main' %}" class="{% if request.resolver_match.url_name == 'show_main' %}active{% endif %}">Profile</a>
                 <a href="{% url 'main:show_experience' %}" class="{% if request.resolver_match.url_name == 'show_experience' %}active{% endif %}">Experience</a>
@@ -84,4 +83,5 @@
     </footer>
     
     {% include 'components/toast.html' %}
-</body></html>
+</body>
+</html>

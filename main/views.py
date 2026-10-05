@@ -1,25 +1,19 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from django.core import serializers
-from django.http import HttpResponse
-
-from main.forms import ProjectForm, EducationForm
-from main.models import Experience, Achievement, Project, Education
+import datetime
+import json
 
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.shortcuts import redirect, render
-
-import datetime
-
-import json
 from django.db.models import F
-from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
+from django.db.models import Q
+from django.http import HttpResponseForbidden, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST
 
-from django.contrib.auth.decorators import login_required  
-from django.core.exceptions import PermissionDenied        
+from main.forms import EducationForm, ProjectForm
+from main.models import Achievement, Education, Experience, Project
 
 
 def show_main(request):
@@ -60,9 +54,6 @@ def create_project(request):
         return HttpResponseForbidden("Anda tidak memiliki akses untuk menambah data.")
     
     form = ProjectForm(request.POST or None)
-
-    if not request.user.is_superuser:
-        raise PermissionDenied
 
     if request.method == "POST" and form.is_valid():
         form.save()
@@ -130,9 +121,6 @@ def delete_project(request, project_id):
         project.delete()
         messages.success(request, "Project berhasil dihapus!")
 
-    if not request.user.is_superuser:
-        raise PermissionDenied
-
     return redirect("main:show_projects")
 
 @require_POST
@@ -171,15 +159,20 @@ def toggle_star(request, project_id):
     return redirect("main:show_projects")
 
 
+@ensure_csrf_cookie
 def show_education(request):
     context = {
         "name": "Rakhel Aqeela Hapsari Ariwibowo",
-        "education_list": Education.objects.all().order_by('-tahun_mulai'),
+        "form": EducationForm(),
     }
     return render(request, "education.html", context)
 
 
+@login_required(login_url="/login/")
 def create_education(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Hanya pemilik portofolio yang dapat menambah pendidikan.")
+
     form = EducationForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
@@ -195,7 +188,11 @@ def create_education(request):
     return render(request, "education_form.html", context)
 
 
+@login_required(login_url="/login/")
 def update_education(request, education_id):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Hanya pemilik portofolio yang dapat mengubah pendidikan.")
+
     education = get_object_or_404(Education, pk=education_id)
     form = EducationForm(request.POST or None, instance=education)
 
@@ -213,20 +210,101 @@ def update_education(request, education_id):
     return render(request, "education_form.html", context)
 
 
+@login_required(login_url="/login/")
+@require_POST
 def delete_education(request, education_id):  
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Hanya pemilik portofolio yang dapat menghapus pendidikan.")
+
     pendidikan = get_object_or_404(Education, pk=education_id)
 
-    if request.method == "POST":
-        pendidikan.delete()
-        messages.success(request, "Riwayat pendidikan berhasil dihapus!")
+    pendidikan.delete()
+    messages.success(request, "Riwayat pendidikan berhasil dihapus!")
 
     return redirect("main:show_education")
 
 
 def get_education_json(request):
-    education_list = Education.objects.all()
-    education_json = serializers.serialize("json", education_list)
-    return HttpResponse(education_json, content_type="application/json")
+    search_query = request.GET.get("q", "").strip()
+    education_list = Education.objects.prefetch_related("starred_by").order_by(
+        "-tahun_mulai",
+        "nama_institusi",
+    )
+
+    if search_query:
+        education_list = education_list.filter(
+            Q(nama_institusi__icontains=search_query)
+            | Q(jenjang__icontains=search_query)
+            | Q(deskripsi__icontains=search_query)
+        )
+
+    data = []
+    for education in education_list:
+        starred_users = list(education.starred_by.all())
+        data.append(
+            {
+                "id": str(education.id),
+                "nama_institusi": education.nama_institusi,
+                "jenjang": education.jenjang,
+                "jenjang_label": education.get_jenjang_display(),
+                "tahun_mulai": education.tahun_mulai,
+                "tahun_selesai": education.tahun_selesai,
+                "deskripsi": education.deskripsi,
+                "star_count": len(starred_users),
+                "is_starred": (
+                    request.user.is_authenticated and request.user in starred_users
+                ),
+                "starred_by_names": [user.username for user in starred_users],
+            }
+        )
+
+    return JsonResponse(data, safe=False)
+
+
+@require_POST
+def create_education_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {"message": "Hanya pemilik portofolio yang dapat menambahkan pendidikan."},
+            status=403,
+        )
+
+    form = EducationForm(request.POST)
+    if not form.is_valid():
+        return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
+
+    education = form.save()
+    return JsonResponse(
+        {
+            "message": "Riwayat pendidikan berhasil ditambahkan.",
+            "id": str(education.id),
+        },
+        status=201,
+    )
+
+
+@require_POST
+def toggle_education_star(request, education_id):
+    if not request.user.is_authenticated:
+        return JsonResponse(
+            {"message": "Silakan login untuk memberi star."},
+            status=401,
+        )
+
+    education = get_object_or_404(Education, pk=education_id)
+    is_starred = education.starred_by.filter(pk=request.user.pk).exists()
+
+    if is_starred:
+        education.starred_by.remove(request.user)
+    else:
+        education.starred_by.add(request.user)
+
+    return JsonResponse(
+        {
+            "is_starred": not is_starred,
+            "star_count": education.starred_by.count(),
+        }
+    )
 
 def register(request):
     form = UserCreationForm(request.POST or None)

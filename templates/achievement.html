@@ -1,4 +1,4 @@
-<html><head></head><body>{% extends "base.html" %}
+{% extends "base.html" %}
 {% block meta %}
     <title>Achievement - {{ name }}</title>
 {% endblock meta %}
@@ -26,11 +26,11 @@
                         </article>
                     {% empty %}
                         <p class="empty-state">
-                            Belum ada achievement yang ditambahkan.
+                            Belum ada penghargaan yang ditambahkan.
                         </p>
                     {% endfor %}
                 </div>
             </div>
         </section>
     </main>
-{% endblock content %}</body></html>
+{% endblock content %}

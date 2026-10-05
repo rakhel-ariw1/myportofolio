@@ -1,4 +1,4 @@
-<html><head></head><body>{% extends "base.html" %}
+{% extends "base.html" %}
 {% block meta %}
     <title>Projects - {{ name }}</title>
 {% endblock meta %}
@@ -154,7 +154,7 @@
             : '';
 
         const urlHtml = project.project_url 
-            ? `<a href="${project.project_url}" class="button">Lihat Project</a>`
+            ? `<a href="${escapeHtml(project.project_url)}" class="button">Lihat Project</a>`
             : '';
 
         // Dummy UUID digunakan untuk digantikan oleh ID asli dari data JSON
@@ -179,9 +179,9 @@
         // Komponen card
         const completeCardHtml = `
             ${imageHtml}
-            <h2>${project.title}</h2>
-            <span class="experience-category">${project.tech_stack}</span>
-            <p class="experience-description">${project.description}</p>
+            <h2>${escapeHtml(project.title)}</h2>
+            <span class="experience-category">${escapeHtml(project.tech_stack)}</span>
+            <p class="experience-description">${escapeHtml(project.description)}</p>
             <div class="project-card-actions">
                 <div class="project-actions">
                     ${urlHtml}
@@ -324,4 +324,4 @@
 
     fetchProjects(searchInput.value.trim());
     </script>
-{% endblock content %}</body></html>
+{% endblock content %}

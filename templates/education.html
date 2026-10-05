@@ -1,77 +1,69 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block meta %}
     <title>Education - {{ name }}</title>
 {% endblock meta %}
+
 {% block content %}
-    <main>
-        <section class="education-section" id="education">
-            <div class="container">
-                <p class="section-kicker">Pendidikan yang saya tempuh</p>
-                <div class="project-header">
+<main>
+    <section
+        id="education-app"
+        class="education-section"
+        data-list-url="{% url 'main:get_education_json' %}"
+        data-create-url="{% url 'main:create_education_ajax' %}"
+        data-star-url-template="{% url 'main:toggle_education_star' '00000000-0000-0000-0000-000000000000' %}"
+        data-edit-url-template="{% url 'main:update_education' '00000000-0000-0000-0000-000000000000' %}"
+        data-delete-url-template="{% url 'main:delete_education' '00000000-0000-0000-0000-000000000000' %}"
+        data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}"
+        data-is-superuser="{{ user.is_superuser|yesno:'true,false' }}"
+    >
+        <div class="container">
+            <p class="section-kicker">Pendidikan yang saya tempuh</p>
+            <div class="education-header">
+                <div>
                     <h1>Education</h1>
-                    <a href="{% url 'main:create_education' %}"
-                       class="button project-add-button">
+                    <p class="education-intro">
+                        Telusuri perjalanan pendidikan saya dan beri star pada entri yang menarik.
+                    </p>
+                </div>
+                {% if user.is_superuser %}
+                    <button type="button" class="button education-add-button" id="open-education-modal">
                         <span aria-hidden="true">+</span>
                         Tambah Pendidikan
-                    </a>
-                </div>
-                <form method="get"
-                      action="{% url 'main:show_education' %}"
-                      class="education-search">
-                    <input type="search"
-                           name="title"
-                           value="{{ title_query }}"
-                           placeholder="Cari berdasarkan nama pendidikan"
-                           class="education-search__input"
-                           aria-label="Cari berdasarkan nama pendidikan">
-                    <button type="submit" class="button">Cari</button>
-                </form>
-                <div class="education-grid education">
-                    {% for education in education_list %}
-                        <article class="education-card">
-                            <h2>{{ education.nama_institusi }}</h2>
-                            <span class="education-category">{{ education.get_jenjang_display }}</span>
-                            <p class="education-years">
-                                {{ education.tahun_mulai }} -
-                                {% if education.tahun_selesai %}{{ education.tahun_selesai }}{% else %}Sekarang{% endif %}
-                            </p>
-                            <p class="education-description">{{ education.deskripsi }}</p>
-                            <div class="education-card-actions">
-                                <div class="education-actions">
-                                    <a href="{% url 'main:update_education' education.id %}" class="button">Edit</a>
-
-                                    <button type="button"
-                                            class="button button-danger"
-                                            onclick="document.getElementById('delete-modal-{{ education.id }}').showModal()">
-                                        Hapus
-                                    </button>
-
-                                    <dialog id="delete-modal-{{ education.id }}" class="delete-modal">
-                                        <form method="post" action="{% url 'main:delete_education' education.id %}">
-                                            {% csrf_token %}
-                                            <p>Yakin ingin menghapus riwayat pendidikan "{{ education.nama_institusi }}"?</p>
-                                            <div class="modal-actions">
-                                                <button type="submit" class="button button-danger">Ya, Hapus</button>
-                                                <button type="button"
-                                                        class="button button-secondary"
-                                                        onclick="document.getElementById('delete-modal-{{ education.id }}').close()">
-                                                    Batal
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </dialog>
-                                </div>
-                            </div>
-                        </article>
-                    {% empty %}
-                        {% if title_query %}
-                            <p class="empty-state">Tidak ada pendidikan dengan nama tersebut.</p>
-                        {% else %}
-                            <p class="empty-state">Belum ada pendidikan yang ditambahkan.</p>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                    </button>
+                {% endif %}
             </div>
-        </section>
-    </main>
+
+            <form id="education-search-form" class="education-search" role="search">
+                <label class="sr-only" for="education-search-input">Cari pendidikan</label>
+                <input
+                    type="search"
+                    id="education-search-input"
+                    name="q"
+                    placeholder="Cari institusi, jenjang, atau deskripsi"
+                    class="education-search__input"
+                    autocomplete="off"
+                >
+                <button type="submit" class="button">Cari</button>
+            </form>
+
+            <p id="education-loading" class="education-state" role="status">Memuat riwayat pendidikan…</p>
+            <div id="education-error" class="education-state education-state--error hide" role="alert">
+                <p>Data pendidikan gagal dimuat. Periksa koneksi lalu coba lagi.</p>
+                <button type="button" id="education-retry" class="button button-secondary">Coba lagi</button>
+            </div>
+            <p id="education-empty" class="education-state hide" role="status">
+                Belum ada riwayat pendidikan yang sesuai.
+            </p>
+            <div id="education-grid" class="education-grid hide" aria-live="polite"></div>
+        </div>
+    </section>
+</main>
+
+{% if user.is_superuser %}
+    {% include "components/education_form_modal.html" %}
+{% endif %}
+
+<script src="{% static 'js/education.js' %}" defer></script>
 {% endblock content %}
