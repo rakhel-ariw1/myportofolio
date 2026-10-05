@@ -36,3 +36,24 @@ AI Disclosure
 Log Percakapan / Prompt History
 1. Prompt Debugging Error Relasi Django: "Sistem memberikan SystemCheckError: (fields.E304) Reverse accessor 'User.starred_projects' for 'main.Project.starred_by' clashes with reverse accessor for 'main.Project.stars'. Bagaimana cara menyelesaikannya?"
 2. Prompt Implementasi Toggle Star: "Buatkan views fungsi toggle_star pada Django yang menggunakan ManyToManyField ke User dan batasi agar hanya POST request dari user yang sudah login."
+
+### Tugas 5
+
+1. Debouncing adalah teknik menunda pemanggilan fungsi sampai pengguna berhenti menghasilkan event selama selang waktu tertentu. Pada pencarian Education, timer 350 ms selalu diatur ulang setiap kali pengguna mengetik. Dengan begitu aplikasi tidak mengirim satu request untuk setiap karakter. Teknik ini mengurangi beban server dan jaringan, mencegah hasil lama menimpa hasil terbaru, serta membuat antarmuka lebih stabil. Request yang sudah tidak relevan juga dibatalkan memakai `AbortController`.
+
+2. `fetch()` langsung mengembalikan `Promise`, bukan data respons. `await fetch(...)` menunggu Promise tersebut selesai dan menghasilkan objek `Response`, sedangkan `await response.json()` menunggu body respons selesai dibaca dan diubah menjadi objek JavaScript. Tanpa `await` (atau rangkaian `.then()`), kode berikutnya berjalan sebelum hasil tersedia; variabel masih berupa Promise sehingga properti seperti `response.ok` atau data JSON belum dapat digunakan sebagaimana mestinya.
+
+3. Cross-Site Scripting (XSS) adalah serangan ketika input berbahaya disisipkan ke halaman lalu dijalankan browser sebagai HTML atau JavaScript. Template Django melakukan auto-escaping secara bawaan, tetapi data JSON yang dirangkai sendiri ke `innerHTML` tidak melewati perlindungan template tersebut. Karena itu, implementasi ini membersihkan input teks di server dengan `strip_tags` pada `EducationForm` dan melakukan escaping pada setiap nilai dinamis sebelum dimasukkan ke HTML. Untuk pesan error, DOM dibangun dengan `textContent` agar teks tidak dieksekusi sebagai markup.
+
+#### Implementasi
+
+- Halaman Education hanya merender kerangka, kemudian mengambil daftar melalui endpoint `JsonResponse` menggunakan Fetch API.
+- Pencarian institusi, jenjang, dan deskripsi berjalan tanpa reload dengan debounce, lengkap dengan kondisi loading, kosong, error, tombol retry, dan pembatalan request.
+- Pemilik portofolio dapat menambah Education dari modal. Data dikirim melalui AJAX dengan token CSRF, divalidasi oleh `ModelForm`, lalu daftar dimuat ulang tanpa reload.
+- Endpoint tambah memeriksa hak superuser di server dan mengembalikan status 201, 400, atau 403 beserta pesan JSON yang ditampilkan melalui toast.
+- Informasi jumlah/status star ikut dikirim dalam JSON. Pengguna yang login dapat melakukan toggle star melalui AJAX, sedangkan pengunjung tetap dapat membaca data.
+- Input teks disanitasi di server dan seluruh data dinamis di JavaScript di-escape sebelum digunakan pada `innerHTML`.
+
+#### AI Disclosure
+
+Saya menggunakan Codex sebagai pendamping belajar untuk meminta arahan mengenai cara menerapkan AJAX pada halaman Education, membuat pencarian dengan debouncing, mengirim CSRF token melalui Fetch API, dan mencegah XSS. Penjelasan serta contoh pendekatan dari Codex kemudian saya pelajari dan sesuaikan dengan struktur model, view, template, serta aturan hak akses pada proyek ini. Setelah itu, implementasi diperiksa kembali melalui Django system check, automated test, dan pengujian aplikasi secara lokal.
