@@ -7,7 +7,7 @@
         <section class="experience-section">
             <div class="container">
                 <h1>{% if is_update %}Edit Pendidikan{% else %}Tambah Pendidikan{% endif %}</h1>
-                <form method="post" class="education-form">
+                <form method="post" class="education-form" id="education-edit-form">
                     {% csrf_token %}
                     {% for field in form %}
                         <div class="form-group">
@@ -26,4 +26,34 @@
             </div>
         </section>
     </main>
+    {% if is_update %}
+    <script>
+    document.getElementById('education-edit-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const button = this.querySelector('[type="submit"]');
+        if (button.disabled) return;
+        button.disabled = true;
+        try {
+            const fields = new FormData(this);
+            const payload = Object.fromEntries([
+                'nama_institusi', 'jenjang', 'tahun_mulai', 'tahun_selesai', 'deskripsi',
+            ].map(name => [name, fields.get(name)]));
+            payload.tahun_selesai = payload.tahun_selesai || null;
+            const response = await fetch("{% url 'api:education-detail' pendidikan.id %}", {
+                method: 'PATCH',
+                headers: {
+                    Accept: 'application/json', 'Content-Type': 'application/json',
+                    'X-CSRFToken': fields.get('csrfmiddlewaretoken'),
+                },
+                body: JSON.stringify(payload),
+            });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(Object.values(result).flat().join(' ') || `HTTP ${response.status}`);
+            showToast('Berhasil', 'Riwayat pendidikan diperbarui.', 'success');
+        } catch (error) {
+            showToast('Gagal menyimpan', error.message, 'error');
+        } finally { button.disabled = false; }
+    });
+    </script>
+    {% endif %}
 {% endblock content %}

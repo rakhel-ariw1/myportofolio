@@ -164,6 +164,7 @@ def show_education(request):
     context = {
         "name": "Rakhel Aqeela Hapsari Ariwibowo",
         "form": EducationForm(),
+        "can_edit_education": request.user.is_superuser or is_editor(request.user),
     }
     return render(request, "education.html", context)
 
@@ -190,8 +191,8 @@ def create_education(request):
 
 @login_required(login_url="/login/")
 def update_education(request, education_id):
-    if not request.user.is_superuser:
-        return HttpResponseForbidden("Hanya pemilik portofolio yang dapat mengubah pendidikan.")
+    if not (request.user.is_superuser or is_editor(request.user)):
+        return HttpResponseForbidden("Hanya pemilik atau Editor yang dapat mengubah pendidikan.")
 
     education = get_object_or_404(Education, pk=education_id)
     form = EducationForm(request.POST or None, instance=education)

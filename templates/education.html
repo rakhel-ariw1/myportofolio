@@ -10,11 +10,12 @@
     <section
         id="education-app"
         class="education-section"
-        data-list-url="{% url 'main:get_education_json' %}"
-        data-create-url="{% url 'main:create_education_ajax' %}"
-        data-star-url-template="{% url 'main:toggle_education_star' '00000000-0000-0000-0000-000000000000' %}"
+        data-list-url="{% url 'api:education-list' %}"
+        data-create-url="{% url 'api:education-list' %}"
+        data-star-url-template="{% url 'api:education-star' '00000000-0000-0000-0000-000000000000' %}"
         data-edit-url-template="{% url 'main:update_education' '00000000-0000-0000-0000-000000000000' %}"
-        data-delete-url-template="{% url 'main:delete_education' '00000000-0000-0000-0000-000000000000' %}"
+        data-delete-url-template="{% url 'api:education-detail' '00000000-0000-0000-0000-000000000000' %}"
+        data-can-edit="{{ can_edit_education|yesno:'true,false' }}"
         data-is-authenticated="{{ user.is_authenticated|yesno:'true,false' }}"
         data-is-superuser="{{ user.is_superuser|yesno:'true,false' }}"
     >

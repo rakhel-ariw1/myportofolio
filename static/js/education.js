@@ -3,7 +3,7 @@
     if (!app) return;
 
     const DUMMY_UUID = "00000000-0000-0000-0000-000000000000";
-    const SEARCH_DELAY = 350;
+    const SEARCH_DELAY = 300;
     const config = {
         listUrl: app.dataset.listUrl,
         createUrl: app.dataset.createUrl,
@@ -12,6 +12,7 @@
         deleteUrlTemplate: app.dataset.deleteUrlTemplate,
         isAuthenticated: app.dataset.isAuthenticated === "true",
         isSuperuser: app.dataset.isSuperuser === "true",
+        canEdit: app.dataset.canEdit === "true",
     };
 
     const elements = {
@@ -81,9 +82,11 @@
         const starLabel = item.is_starred ? "Batalkan star" : "Beri star";
         const starredClass = item.is_starred ? " is-starred" : "";
 
+        const editAction = config.canEdit
+            ? `<a class="button button-secondary" href="${replaceUuid(config.editUrlTemplate, educationId)}">Edit</a>`
+            : "";
         const ownerActions = config.isSuperuser
             ? `
-                <a class="button button-secondary" href="${replaceUuid(config.editUrlTemplate, educationId)}">Edit</a>
                 <form class="education-delete-form" method="post" action="${replaceUuid(config.deleteUrlTemplate, educationId)}">
                     <input type="hidden" name="csrfmiddlewaretoken" value="${escapeHtml(getCsrfToken())}">
                     <button type="submit" class="button button-danger" data-institution="${institution}">Hapus</button>
@@ -113,7 +116,7 @@
                     <span class="education-star-label">${starLabel}</span>
                     <span class="star-count">${starCount}</span>
                 </button>
-                <div class="education-owner-actions">${ownerActions}</div>
+                <div class="education-owner-actions">${editAction}${ownerActions}</div>
             </div>
         `;
         return article;
@@ -150,7 +153,7 @@
 
     function formatApiErrors(errors) {
         return Object.entries(errors || {}).flatMap(([field, details]) =>
-            details.map((detail) => `${field === "__all__" ? "Form" : field}: ${detail.message}`)
+            (Array.isArray(details) ? details : [details]).map((detail) => `${field}: ${detail}`)
         );
     }
 
@@ -204,7 +207,7 @@
                 }
             );
             const result = await response.json().catch(() => ({}));
-            if (!response.ok) throw new Error(result.message || `HTTP ${response.status}`);
+            if (!response.ok) throw new Error(result.detail || `HTTP ${response.status}`);
 
             button.classList.toggle("is-starred", result.is_starred);
             button.setAttribute("aria-pressed", String(result.is_starred));
@@ -212,6 +215,7 @@
                 ? "Batalkan star"
                 : "Beri star";
             button.querySelector(".star-count").textContent = result.star_count;
+            button.title = result.starred_by_names.join(", ") || "Belum ada yang memberi star";
         } catch (error) {
             showToast("Star gagal diperbarui", error.message, "error");
         } finally {
@@ -219,11 +223,31 @@
         }
     });
 
-    elements.grid.addEventListener("submit", (event) => {
+    elements.grid.addEventListener("submit", async (event) => {
         if (!event.target.matches(".education-delete-form")) return;
+        event.preventDefault();
+        const button = event.submitter;
+        if (!button || button.disabled) return;
         const institution = event.submitter?.dataset.institution || "pendidikan ini";
         if (!window.confirm(`Hapus riwayat pendidikan “${institution}”?`)) {
-            event.preventDefault();
+            return;
+        }
+        button.disabled = true;
+        try {
+            const response = await fetch(event.target.action, {
+                method: "DELETE",
+                headers: { Accept: "application/json", "X-CSRFToken": getCsrfToken() },
+            });
+            if (!response.ok) {
+                const result = await response.json().catch(() => ({}));
+                throw new Error(result.detail || `HTTP ${response.status}`);
+            }
+            showToast("Berhasil", "Riwayat pendidikan dihapus.", "success");
+            await fetchEducation();
+        } catch (error) {
+            showToast("Gagal menghapus", error.message, "error");
+        } finally {
+            button.disabled = false;
         }
     });
 
@@ -242,20 +266,26 @@
             elements.formErrors.classList.add("hide");
 
             try {
+                const fields = new FormData(elements.form);
+                const payload = Object.fromEntries([
+                    "nama_institusi", "jenjang", "tahun_mulai", "tahun_selesai", "deskripsi",
+                ].map(name => [name, fields.get(name)]));
+                payload.tahun_selesai = payload.tahun_selesai || null;
                 const response = await fetch(config.createUrl, {
                     method: "POST",
                     headers: {
                         Accept: "application/json",
+                        "Content-Type": "application/json",
                         "X-CSRFToken": getCsrfToken(),
                     },
-                    body: new FormData(elements.form),
+                    body: JSON.stringify(payload),
                 });
                 const result = await response.json().catch(() => ({}));
 
                 if (!response.ok) {
-                    const messages = result.errors
-                        ? formatApiErrors(result.errors)
-                        : [result.message || `Permintaan gagal (HTTP ${response.status}).`];
+                    const messages = Object.keys(result).length
+                        ? formatApiErrors(result)
+                        : [`Permintaan gagal (HTTP ${response.status}).`];
                     showFormErrors(messages);
                     showToast("Pendidikan gagal ditambahkan", messages.join(" "), "error");
                     return;
@@ -263,7 +293,7 @@
 
                 elements.form.reset();
                 closeModal();
-                showToast("Berhasil", result.message, "success");
+                showToast("Berhasil", "Riwayat pendidikan ditambahkan.", "success");
                 await fetchEducation();
             } catch (error) {
                 console.error("Gagal menambah pendidikan:", error);
