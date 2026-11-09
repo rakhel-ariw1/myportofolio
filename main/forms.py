@@ -128,17 +128,17 @@ class EducationForm(ModelForm):
         tahun_selesai = cleaned_data.get("tahun_selesai")
         maximum_year = date.today().year + 10
 
-        if tahun_mulai and not 1900 <= tahun_mulai <= maximum_year:
+        if tahun_mulai is not None and not 1900 <= tahun_mulai <= maximum_year:
             self.add_error(
                 "tahun_mulai",
                 f"Tahun mulai harus berada di antara 1900 dan {maximum_year}.",
             )
-        if tahun_selesai and not 1900 <= tahun_selesai <= maximum_year:
+        if tahun_selesai is not None and not 1900 <= tahun_selesai <= maximum_year:
             self.add_error(
                 "tahun_selesai",
                 f"Tahun selesai harus berada di antara 1900 dan {maximum_year}.",
             )
-        if tahun_mulai and tahun_selesai and tahun_selesai < tahun_mulai:
+        if tahun_mulai is not None and tahun_selesai is not None and tahun_selesai < tahun_mulai:
             self.add_error(
                 "tahun_selesai",
                 "Tahun selesai tidak boleh lebih awal daripada tahun mulai.",

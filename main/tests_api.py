@@ -167,6 +167,10 @@ class EducationAPITest(APITestCase):
             self.assertEqual(self.client.patch(self.detail_url, {"deskripsi": "Changed"}, format="json").status_code, 403)
             self.assertEqual(self.client.put(self.detail_url, self.payload, format="json").status_code, 403)
             self.assertEqual(self.client.delete(self.detail_url).status_code, 403)
+            self.assertEqual(Education.objects.count(), 1)
+            self.education.refresh_from_db()
+            for field, value in self.payload.items():
+                self.assertEqual(getattr(self.education, field), value)
         self.education.refresh_from_db()
         self.assertEqual(self.education.deskripsi, "Sistem Informasi")
 
@@ -215,22 +219,85 @@ class EducationAPITest(APITestCase):
 
     def test_star_uses_current_user(self):
         self.assertEqual(self.client.post(self.star_url).status_code, 403)
+        self.assertEqual(self.education.starred_by.count(), 0)
         self.client.force_authenticate(user=self.visitor)
         response = self.client.post(self.star_url, {"user": self.owner.pk}, format="json")
         self.assertTrue(response.data["is_starred"])
         self.assertEqual(response.data["starred_by_names"], ["visitor"])
         self.assertEqual(response.data["star_count"], 1)
+        self.assertEqual(list(self.education.starred_by.all()), [self.visitor])
         self.assertEqual(self.client.post(self.star_url).data["star_count"], 0)
+        self.assertEqual(self.education.starred_by.count(), 0)
 
     def test_session_csrf_and_editor_form(self):
         client = APIClient(enforce_csrf_checks=True)
-        client.force_login(self.editor)
+        self.assertTrue(client.login(username="editor", password="test-password"))
         self.assertEqual(client.patch(self.detail_url, {"deskripsi": "Edited"}, format="json").status_code, 403)
+        self.education.refresh_from_db()
+        self.assertEqual(self.education.deskripsi, self.payload["deskripsi"])
         page = client.get(reverse("main:update_education", args=[self.education.id]))
         self.assertEqual(page.status_code, 200)
         response = client.patch(self.detail_url, {"deskripsi": "Edited"}, format="json",
                                 HTTP_X_CSRFTOKEN=client.cookies["csrftoken"].value)
         self.assertEqual(response.status_code, 200)
+
+    def test_missing_education_returns_404(self):
+        self.client.force_authenticate(user=self.owner)
+        detail = reverse("api:education-detail", args=[uuid.uuid4()])
+        star = reverse("api:education-star", args=[uuid.uuid4()])
+        for method in ("get", "put", "patch", "delete"):
+            with self.subTest(method=method):
+                response = getattr(self.client, method)(detail)
+                self.assertEqual(response.status_code, 404)
+        self.assertEqual(self.client.post(star).status_code, 404)
+        self.assertEqual(Education.objects.count(), 1)
+
+    def test_all_authenticated_roles_can_star_with_page_csrf_token(self):
+        for user in (self.visitor, self.editor, self.owner):
+            with self.subTest(role=user.username):
+                client = APIClient(enforce_csrf_checks=True)
+                self.assertTrue(client.login(username=user.username, password="test-password"))
+                self.assertEqual(client.post(self.star_url).status_code, 403)
+                self.assertEqual(self.education.starred_by.count(), 0)
+                page = client.get(reverse("main:show_education"))
+                self.assertContains(page, self.list_url)
+                token = client.cookies["csrftoken"].value
+                response = client.post(self.star_url, HTTP_X_CSRFTOKEN=token)
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(list(self.education.starred_by.all()), [user])
+                response = client.post(self.star_url, HTTP_X_CSRFTOKEN=token)
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(self.education.starred_by.count(), 0)
+
+    def test_public_response_does_not_expose_account_fields(self):
+        self.education.starred_by.add(self.owner)
+        response = self.client.get(self.detail_url)
+        self.assertEqual(response.data["star_count"], 1)
+        self.assertFalse(response.data["is_starred"])
+        self.assertNotIn(self.owner.email, response.content.decode())
+        self.assertNotIn(self.owner.password, response.content.decode())
+        self.assertNotIn("starred_by", response.data)
+
+    def test_legacy_editor_cannot_create_or_delete(self):
+        self.client.force_login(self.editor)
+        for route, args in (("create_education", []), ("create_education_ajax", []),
+                            ("delete_education", [self.education.id])):
+            with self.subTest(route=route):
+                response = self.client.post(reverse(f"main:{route}", args=args),
+                                            {**self.payload, "tahun_selesai": ""})
+                self.assertEqual(response.status_code, 403)
+                self.assertEqual(Education.objects.count(), 1)
+                self.education.refresh_from_db()
+                self.assertEqual(self.education.nama_institusi, self.payload["nama_institusi"])
+
+    def test_legacy_form_rejects_zero_year_like_api(self):
+        from main.forms import EducationForm
+
+        for field in ("tahun_mulai", "tahun_selesai"):
+            with self.subTest(field=field):
+                form = EducationForm(data={**self.payload, field: 0})
+                self.assertFalse(form.is_valid())
+                self.assertIn(field, form.errors)
 
 
 class APIIntegrationTest(APITestCase):
